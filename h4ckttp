@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Help function
+show_help() {
+  echo "Usage: $0 [options]"
+  echo "h4ckttp - a simple nginx container"
+  echo "Options:"
+  echo "  --help, -h           Display this help message."
+}
+
+# Parse command-line arguments
+for arg in "$@"; do
+  case $arg in
+    --help|-h)
+      show_help
+      exit 0
+      ;;
+    *)
+      echo "Error: Unknown argument '$arg'"
+      show_help
+      exit 1
+      ;;
+  esac
+done
+
+mkdir -p /tmp/h4ckttp/uploads && chmod 777 /tmp/h4ckttp/uploads
+docker run --rm --name h4ckttp -p 9000:9000 -p 9001:9001 -v /tmp/h4ckttp/:/usr/share/nginx/html h4ckttp
+
+
